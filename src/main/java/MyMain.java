@@ -8,7 +8,13 @@ public class MyMain {
     //      int y = "banana".compareTo("apple"); // y is positive
     public static String findLastWord(String[] arr) {
         // YOUR CODE HERE
-        return "";
+        String appledb = "AAAAAAAAAAA";
+        for (String mybad: arr) {
+            if (appledb.compareTo(mybad) < 0) {
+                appledb = mybad;
+            }
+        }
+        return appledb;
     }
 
     // Given a 2D array, return an 1D array of the last word
@@ -16,8 +22,11 @@ public class MyMain {
     // You can assume that the matrix will not be empty
     // Hint: use the previous method to help yourself!
     public static String[] findLastWord2D(String[][] mat) {
-        // YOUR CODE HERE
-        return null;
+        String[] tab = new String[mat.length];
+        for (int x = 0; x < mat.length; x++) {
+            tab[x] = findLastWord(mat[x]);
+        }
+        return tab;
     }
 
     // Given a 2D array and some column index col
@@ -30,8 +39,13 @@ public class MyMain {
     // Hint: remember how the indexOf() method works?
     // alternatively, consider the contains() method
     public static int appleCounter(String[][] mat, int col) {
-        // YOUR CODE HERE
-        return -1;
+        int count = 0;
+        for (int x = 0; x < mat.length; x++) {
+            if (mat[x][col].indexOf("apple") != -1) {
+                count ++;
+            }
+        }
+        return count;
     }
 
     // Given a 2D array, return the column number corresponding
@@ -41,8 +55,15 @@ public class MyMain {
     // Hint: use your previous method!
     // Hint 2: you might need to loop through the columns!
     public static int findMostAppleColumn(String[][] mat) {
-        // YOUR CODE HERE
-        return -1;
+        int curcount = 0;
+        int curcol = 0;
+        for (int x = 0; x < mat[0].length; x++) {
+            if (appleCounter(mat, x) > curcount) {
+                curcount = appleCounter(mat, x);
+                curcol = x;
+            }
+        }
+        return curcol;
     }
 
 
@@ -70,8 +91,17 @@ public class MyMain {
     //       from top to bottom
 
     public static int[][] pascal(int height) {
-        // YOUR CODE HERE
-        return null;
+        int[][] newpescal = new int[height][height];
+        for (int x = 0; x < height; x++) {
+            for (int y = 0; y < height; y++) {
+                if (y == 0 || y == x) {
+                    newpescal[x][y] = 1;
+                } else if (y < x) {
+                    newpescal[x][y] = newpescal[x-1][y-1]+newpescal[x-1][y];
+                }
+            }
+        }
+        return newpescal;
     }
 
 
@@ -107,8 +137,34 @@ public class MyMain {
     // * do you see any pattern for the row and col indexes for a diagonal?
     // * can you use a for loop that goes through that pattern?
     public static boolean isMagic(int[][] mat) {
-        // YOUR CODE HERE
-        return false;
+        int diagsum1 = 0;
+        int diagsum2 = 0;
+        for (int x = 0; x < mat.length; x++) {
+            diagsum1 = diagsum1 + mat[x][x];
+            diagsum2 = diagsum2 + mat[mat.length-x-1][x];
+        }
+        if (diagsum1 != diagsum2) {
+            return false;
+        }
+        for (int[] x: mat) {
+            int rowsum = 0;
+            for (int y: x) {
+                rowsum += y;
+            }
+            if (rowsum != diagsum1) {
+                return false;
+            }
+        }
+        for (int x = 0; x < mat.length; x++) {
+            int colsum = 0;
+            for (int y = 0; y < mat.length; y++) {
+                colsum += mat[y][x];
+            }
+            if (colsum != diagsum1) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
